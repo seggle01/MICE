@@ -4,9 +4,9 @@
 #
 # This is a one-factor-at-a-time study on the paper's SafetyPointGoal1-v0
 # sensitivity environment. Every configuration is run with the same six seeds.
-# The paper uses 1e7 steps; this project currently uses 640000 as a
-# documented compute-limited deviation. With steps_per_epoch=20000, each run
-# has 32 epochs.
+# The paper uses 1e7 steps; this project uses 7000000 as a documented
+# compute-limited deviation. With steps_per_epoch=20000, each run has 350
+# epochs.
 
 set -euo pipefail
 
@@ -14,10 +14,10 @@ ENV_ID="SafetyPointGoal1-v0"
 DEVICE="cpu"
 VECTOR_ENVS="16"
 TORCH_THREADS="1"
-TOTAL_STEPS="640000"
+TOTAL_STEPS="7000000"
 PARALLEL="1"
 # Keep this at 1 for the first verification. Change it to 0 to launch training.
-DRY_RUN="1"
+DRY_RUN="0"
 
 # The paper reports six random seeds but does not publish their values.
 SEEDS=(0 1 2 3 4 5)
@@ -85,7 +85,7 @@ run_configuration() {
 echo "Goal 5 MICE-CPO sensitivity study"
 echo "env=$ENV_ID device=$DEVICE vector_envs=$VECTOR_ENVS parallel=$PARALLEL torch_threads=$TORCH_THREADS"
 echo "total_steps=$TOTAL_STEPS seeds=${SEEDS[*]} dry_run=$DRY_RUN"
-echo "Each run uses 32 epochs when TOTAL_STEPS=640000."
+echo "Each run uses 350 epochs when TOTAL_STEPS=7000000."
 
 # Baseline: run once as its own labelled configuration.
 run_configuration "baseline" "$BASE_COST_LIMIT" "$BASE_K_KNN" "$BASE_INTRINSIC_FACTOR"
