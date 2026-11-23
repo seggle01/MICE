@@ -424,3 +424,8 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+
+.goal3-sources/
+.goal3-venv/
+goal3-results/
+goal3/comparison/

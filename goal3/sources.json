@@ -1,0 +1,5 @@
+{
+  "MICE": {"url": "https://github.com/ShiqingGao/MICE.git", "commit": "12666e670f688d80115b9ec36dc5167854ef38e0"},
+  "IP3O": {"url": "https://github.com/somnathhazra/IP3O.git", "commit": "177357c118de82e6cd65d9a65c970955178efe19"},
+  "CSPO": {"url": "https://github.com/serval-uni-lu/CSPO.git", "commit": "962e696eb1f07b47ac0094bf1a2aa1299f97cc9b"}
+}

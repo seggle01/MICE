@@ -1,0 +1,100 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.1cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,booktabs,graphicx,xcolor}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots,fillbetween}
+\pgfplotsset{compat=1.18}
+\usepackage[hidelinks]{hyperref}
+\definecolor{MICEcolor}{HTML}{D95F59}
+\definecolor{IP3Ocolor}{HTML}{2878B5}
+\definecolor{CSPOcolor}{HTML}{38905B}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\title{Goal 3: Recent Safe-RL Comparisons\\\large IP3O and CSPO in the MICE evaluation setting}
+\author{RL Reproducibility Project}
+\date{\today}
+\begin{document}
+\maketitle
+\input{status.tex}
+\section{Question and protocol}
+The intended question is whether MICE's safety--reward benefits remain competitive
+against recent online constrained reinforcement learning methods.
+IP3O uses a smooth incentive--penalty objective; CSPO adds a correction informed
+by local constraint sensitivity. The prepared algorithms and reference paper are
+listed in the bibliography.
+
+The configured experiment runs PointGoal1, CarGoal1, PointCircle1 and CarCircle1 with seeds
+$\{0,1,2,3,4,5\}$ and an episode cost limit of 25. Each run collects seven million interactions. MICE and CSPO run 350 epochs of 20,000 steps. IP3O runs 1,400 epochs of 5,000 steps. Plots use environment steps, and tables
+truncate each task to the smallest observed completed-episode horizon across
+all included runs. No seed is extrapolated beyond its observed data.
+This is a reduced-budget extension, not a full reproduction of MICE's
+approximately ten-million-step experiments.
+
+Algorithm-specific normalization, optimizer settings and update frequencies are
+retained. IP3O's missing configuration parameter is supplied as $\alpha=0.1$
+for navigation; CSPO uses its released $\alpha=0.3$.
+All runs use vector observations and the same pinned environment versions.
+Check \texttt{resolved\_config.json} in each run for the actual configuration;
+command-line overrides may differ from these planned defaults.
+
+\section{Metrics and interpretation}
+For episode $i$ with length $L_i$, let
+\[
+R_i=\sum_{t=0}^{L_i-1}r_{i,t},\qquad C_i=\sum_{t=0}^{L_i-1}c_{i,t}.
+\]
+The plotted costs are extrinsic, raw environment costs; MICE's intrinsic cost
+is not included. These sums are undiscounted. This explicit logging definition
+should be distinguished from discounted-value terminology in the reference paper.
+For $T$ training interactions and $N(T)$ completed episodes, report
+\begin{align*}
+A(T)&=\sum_{t=1}^{T} c_t &&\text{(accumulated training cost)},\\
+V(T)&=\sum_{i=1}^{N(T)}\mathbf{1}\{C_i>d\} &&\text{(violating episode count)},\\
+F(T)&=V(T)/N(T) &&\text{(violation fraction)},\\
+E(T)&=\sum_{i=1}^{N(T)}\max(0,C_i-d) &&\text{(excess episode cost)}.
+\end{align*}
+$A(T)$ includes every recorded training step, including unfinished episode fragments.
+The episode metrics include completed episodes only. Exceeding an episode limit
+is a descriptive safety metric; an expected-cost constraint does not imply an
+individual-episode guarantee.
+
+Return and episode cost are smoothed within each seed before averaging seeds.
+Bands show one population standard deviation across seeds, following the visual
+convention of MICE Figure 3. They are not confidence intervals. No variability
+band is drawn for a single seed. Cumulative metrics are not smoothed.
+Interpolation is restricted to the common observed range of seeds for each
+algorithm and task. The data tables and analysis notes specify the exact export.
+
+\section{Results at a common interaction budget}
+\input{results.tex}
+\IfFileExists{timing.tex}{\input{timing.tex}}{}
+\input{generated_figures.tex}
+\clearpage
+\input{discussion.tex}
+\section{Reproducibility and limitations}
+The run directory contains complete configurations, source revisions, package
+versions, console output, per-episode and per-epoch CSVs, cumulative cost logs,
+TensorBoard events and checkpoints. Files are flushed during training.
+Interrupted runs retain partial observations and are identified in the data status.
+The exported \texttt{included\_runs.json} records exactly which runs were analyzed.
+
+Training return is not held-out final-policy evaluation. Run a separate common
+evaluation protocol before drawing final-policy conclusions. Reduced-budget
+results may reflect learning speed rather than asymptotic performance.
+The study does not independently establish MICE's proposed causal explanation
+about cost underestimation. Compatible MICE results must be included before
+claiming that either comparator outperforms MICE.
+
+\begin{thebibliography}{9}
+\bibitem{mice} Gao et al. \emph{Controlling Underestimation Bias in Constrained
+Reinforcement Learning for Safe Exploration}. ICML, 2025.
+\url{https://github.com/ShiqingGao/MICE}
+\bibitem{ip3o} Hazra, Dasgupta and Dey. \emph{Incentivizing Safer Actions in Policy
+Optimization for Constrained Reinforcement Learning}. IJCAI, 2025.
+\url{https://ijcai.org/proceedings/2025/592}
+\bibitem{cspo} Belouadah, Kubler and Le Traon. \emph{CSPO: Constraint-Sensitive
+Policy Optimization for Safe Reinforcement Learning}. ICML, 2026.
+\url{https://proceedings.mlr.press/v306/belouadah26a.html}
+\end{thebibliography}
+\end{document}

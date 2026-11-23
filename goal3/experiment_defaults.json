@@ -1,0 +1,20 @@
+{
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "envs": [
+    "SafetyPointGoal1-v0",
+    "SafetyCarGoal1-v0",
+    "SafetyPointCircle1-v0",
+    "SafetyCarCircle1-v0"
+  ],
+  "device": "cpu",
+  "threads": 2,
+  "smoothing_episodes": 10,
+  "total_steps": 7000000
+}

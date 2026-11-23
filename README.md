@@ -1,3 +1,5 @@
+**RenkuLab training:** [Run the 7-million-step Goal 3 comparison with six seeds](goal3/README.md).
+
 <div align="center">
 
 # Controlling Underestimation Bias in Constrained Reinforcement Learning for Safe Exploration
