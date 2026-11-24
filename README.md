@@ -54,7 +54,7 @@ cd MICE
 pip install omnisafe
 
 # Install project-specific dependencies
-pip install -r requirements.txt
+pip install -r experiments/requirements.txt
 ```
 
 ### 🎯 Running Experiments

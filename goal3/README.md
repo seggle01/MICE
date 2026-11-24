@@ -10,7 +10,7 @@ Open a terminal in a Linux x86-64 Renku session with internet access, Git and Py
 bash goal3/setup.sh
 ```
 
-Setup creates an isolated Python 3.10 environment, installs CPU PyTorch, and fetches the exact algorithm revisions in `goal3/sources.json`. Use two CPU threads and one simulator per run, as in the earlier comparison. Attach writable persistent storage for the output of long runs. The launcher defaults to `goal3-results/` inside the checkout. To store results on a mounted volume, append `--output /your/mounted/path/goal3-results` to each sweep command.
+In the Renku environment builder, select branch `goal3/renku-7m-6seeds` and rebuild from its latest commit. The root `requirements.txt` installs uv for the builder. Once the session opens, the setup command above creates an isolated Python 3.10 environment, installs CPU PyTorch, and fetches the exact algorithm revisions in `goal3/sources.json`. Use two CPU threads and one simulator per run, as in the earlier comparison. Attach writable persistent storage for the output of long runs. The launcher defaults to `goal3-results/` inside the checkout. To store results on a mounted volume, append `--output /your/mounted/path/goal3-results` to each sweep command.
 
 ## Train
 
