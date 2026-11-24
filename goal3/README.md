@@ -45,3 +45,19 @@ For a custom results location, set RESULTS to its actual path and pass the run d
 ```
 
 The export includes editable LaTeX, curve data, training reward, accumulated raw cost, counts and fractions of episodes above the limit, and per-epoch times. The input logs and checkpoints remain in the per-seed directories.
+
+## Launch all 72 runs unattended
+
+From the repository root, run `bash run.sh`. Setup, MICE, IP3O, CSPO and the
+editable report export run sequentially in the background. Use
+`bash run.sh --output /actual/mounted/storage/goal3-results` for persistent outputs.
+For a Renku Job use `bash run.sh --foreground` with the same output option and
+configure the job time limit for the sweep. The checkout must be the working directory.
+
+Read `batch.log` for setup and scheduling, `batch-status.json` for the current
+run and final status, and each seed's console.log and data/epochs.csv for details.
+Relaunch with the same output path after an interruption. The launcher reuses
+completed seeds, preserves partial runs, and allows up to two separate retry
+directories per seed. Each retry restarts that seed from step zero.
+Only one all-method launcher can run per output directory. Finish or stop any
+independently started manual sweep before launching the combined batch.
